@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:12:19 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/05 17:31:40 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/08 00:40:43 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	run_open_cl(t_global *global)
 {
 	set_arg_open_cl_kernel(global->status, global->open_cl);
 	execute_open_cl_kernel(global->open_cl);
-	get_open_cl_result(global->open_cl, global->mlx);
+	get_open_cl_result(global->open_cl, global->sdl);
 }
 
 void	set_arg_open_cl_kernel(t_status *status, t_open_cl *open_cl)
@@ -62,12 +62,12 @@ void	execute_open_cl_kernel(t_open_cl *open_cl)
 		put_open_cl_error(open_cl, "clEnqueueNDRangeKernel error", err_code);
 }
 
-void	get_open_cl_result(t_open_cl *open_cl, t_mlx *mlx)
+void	get_open_cl_result(t_open_cl *open_cl, t_sdl *sdl)
 {
 	cl_int	err_code;
 
 	if ((err_code = clEnqueueReadBuffer(open_cl->command_queue, open_cl->buf,
-	CL_TRUE, 0, open_cl->global_work_size * sizeof(int), mlx->data, 0, NULL,
+	CL_TRUE, 0, open_cl->global_work_size * sizeof(int), sdl->data, 0, NULL,
 	NULL)))
 		put_open_cl_error(open_cl, "clEnqueueReadBuffer error", err_code);
 }

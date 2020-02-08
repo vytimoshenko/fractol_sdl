@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol_mlx_control_1.c                            :+:      :+:    :+:   */
+/*   fractol_sdl_control_1.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/05 19:02:07 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/08 03:42:01 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,24 @@ void	get_mouse_position(t_status *status, int x, int y)
 
 void	control_zoom(t_status *status, int key)
 {
-	if (key == PLUS)
+	if (key == SDL_SCANCODE_KP_PLUS)
 		status->zoom *= 1.1;
-	else if (key == MINUS)
+	else if (key == SDL_SCANCODE_KP_MINUS)
 		status->zoom /= 1.1;
 }
 
-void	control_mouse_zoom(t_status *status, int x, int y, int key)
+void	control_mouse_zoom(t_status *status, int wheel)
 {
+	int		x;
+	int		y;
 	double	tmp;
 
+	x = status->x_mouse_position;
+	y = status->y_mouse_position;
 	tmp = status->zoom;
-	if (key == MOUSE_SCROLL_UP)
+	if (wheel > 0)
 		status->zoom *= 1.1;
-	else if (key == MOUSE_SCROLL_DOWN)
+	if (wheel < 0)
 		status->zoom /= 1.1;
 	if (tmp < status->zoom)
 	{
@@ -56,13 +60,13 @@ void	control_mouse_zoom(t_status *status, int x, int y, int key)
 
 void	control_shift(t_status *status, int key)
 {
-	if (key == ARROW_DOWN)
+	if (key == SDL_SCANCODE_DOWN)
 		status->y_shift -= 10 / status->zoom;
-	else if (key == ARROW_UP)
+	else if (key == SDL_SCANCODE_UP)
 		status->y_shift += 10 / status->zoom;
-	else if (key == ARROW_RIGHT)
+	else if (key == SDL_SCANCODE_RIGHT)
 		status->x_shift -= 10 / status->zoom;
-	else if (key == ARROW_LEFT)
+	else if (key == SDL_SCANCODE_LEFT)
 		status->x_shift += 10 / status->zoom;
 }
 

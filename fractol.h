@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/06 02:18:58 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/08 03:40:04 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,6 @@
 # define BURNING_SHIP			3
 # define SPIDER					4
 # define SIN					5
-
-# define MIDDLE_MOUSE_BUTTON	3
-# define MOUSE_SCROLL_UP		4
-# define MOUSE_SCROLL_DOWN		5
-
-# define D						2
-# define H						4
-# define C						8
-# define R						15
-# define RETURN					36
-# define CHEVRON_LEFT			43
-# define CHEVRON_RIGHT			47
-# define SPACE					49
-# define ESC					53
-# define PLUS					69
-# define MINUS					78
-# define ARROW_LEFT				123
-# define ARROW_RIGHT			124
-# define ARROW_DOWN				125
-# define ARROW_UP				126
 
 typedef struct			s_sdl
 {
@@ -174,18 +154,18 @@ void					reset_status(t_status *status);
 void					check_argument(t_status *status, char *arg);
 void					error_wrong_argument(void);
 
-int						mouse_move(int x, int y, t_global *global);
-int						mouse_key_press(int key, int x, int y,
+void					mouse_move(int x, int y, t_global *global);
+void						mouse_key_press(int key, int x, int y,
 						t_global *global);
+void					mouse_scroll(int wheel, t_global *global);
 int						mouse_key_release(int key, int x, int y,
 						t_global *global);
-int						keyboard_key_press(int key, t_global *global);
-int						close_window(t_open_cl *open_cl);
+void						keyboard_key_press(int key, t_global *global);
+void					close_window(t_global *global);
 
 void					get_mouse_position(t_status *status, int x, int y);
 void					control_zoom(t_status *status, int key);
-void					control_mouse_zoom(t_status *status, int x, int y,
-						int key);
+void					control_mouse_zoom(t_status *status, int wheel);
 void					control_shift(t_status *status, int key);
 void					control_mouse_shift(t_status *status, int x, int y);
 
@@ -223,7 +203,7 @@ void					set_arg_open_cl_kernel(t_status *status,
 void					pack_arg_to_struct(t_status *status,
 						t_kernel_arg *kernel_arg);
 void					execute_open_cl_kernel(t_open_cl *open_cl);
-void					get_open_cl_result(t_open_cl *open_cl, t_mlx *mlx);
+void					get_open_cl_result(t_open_cl *open_cl, t_sdl *sdl);
 
 void					clean_open_cl(t_open_cl *open_cl);
 void					clean_open_cl_1(t_open_cl *open_cl);
@@ -240,5 +220,8 @@ char					*open_cl_error_3(cl_int err_code);
 char					*open_cl_error_4(cl_int err_code);
 char					*open_cl_error_5(cl_int err_code);
 char					*open_cl_error_6(cl_int err_code);
+
+
+void	clean_sdl(t_sdl *sdl);
 
 #endif

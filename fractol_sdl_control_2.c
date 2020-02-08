@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol_mlx_control_2.c                            :+:      :+:    :+:   */
+/*   fractol_sdl_control_2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/05 16:46:17 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/08 03:42:03 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	control_type(t_status *status)
 
 void	control_iteration(t_status *status, int key)
 {
-	if (key == CHEVRON_RIGHT && status->iter)
+	if (key == SDL_SCANCODE_PERIOD)
 		status->iter += 10;
-	else if (key == CHEVRON_LEFT && status->iter > 10)
+	else if (key == SDL_SCANCODE_COMMA && status->iter > 10)
 		status->iter -= 10;
 }
 
