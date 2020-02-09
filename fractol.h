@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/08 03:40:04 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/09 04:20:46 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 # define FRACTOL_H
 
 # include "./libft/libft.h"
-# include "./SDL2/SDL.h"
-# include "mlx.h"
+# include "./SDL2/headers/SDL.h"
 # include <OpenCL/opencl.h>
 
 # define PROGRAM_NAME			"fractol"
@@ -50,18 +49,6 @@ typedef struct			s_sdl
     SDL_Texture    		*tex;
     int             	*data;
 }						t_sdl;
-
-typedef struct			s_mlx
-{
-	void				*mlx;
-	void				*win;
-	void				*img;
-	int					*data;
-
-	int					bits_per_pixel;
-	int					size_line;
-	int					endian;
-}						t_mlx;
 
 typedef struct			s_open_cl
 {
@@ -119,7 +106,6 @@ typedef struct			s_global
 {
 	t_status			*status;
 	t_sdl				*sdl;
-	t_mlx				*mlx;
 	t_open_cl			*open_cl;
 }						t_global;
 
@@ -144,24 +130,24 @@ typedef struct			s_kernel_arg
 }						t_kernel_arg;
 
 int						main(int argc, char **argv);
-t_status				*init_status(int argc, char **argv);
-t_mlx					*init_mlx(void);
-t_sdl					*init_sdl(void);
-void					draw(t_global *global);
-void					mlx_hooks(t_global *global);
 
-void					reset_status(t_status *status);
+t_status				*init_status(int argc, char **argv);
 void					check_argument(t_status *status, char *arg);
 void					error_wrong_argument(void);
+void					reset_status(t_status *status);
+
+t_sdl					*init_sdl(void);
+void					draw(t_global *global);
+void					sdl_events(t_global *global, SDL_Event event);
+
+void					clean_sdl(t_sdl *sdl);
+void					close_window(t_global *global);
 
 void					mouse_move(int x, int y, t_global *global);
-void						mouse_key_press(int key, int x, int y,
-						t_global *global);
+void					mouse_key_press(int key, t_global *global);
 void					mouse_scroll(int wheel, t_global *global);
-int						mouse_key_release(int key, int x, int y,
-						t_global *global);
-void						keyboard_key_press(int key, t_global *global);
-void					close_window(t_global *global);
+void					mouse_key_release(int key, t_global *global);
+void					keyboard_key_press(int key, t_global *global);
 
 void					get_mouse_position(t_status *status, int x, int y);
 void					control_zoom(t_status *status, int key);
@@ -175,53 +161,30 @@ void					control_colors(t_status *status);
 void					control_device(t_global *global);
 void					set_julia(t_status *status, int x, int y);
 
-void					put_info_to_window(t_global *global);
-void					put_control_keys_1(t_status *status, t_mlx *mlx);
-void					put_control_keys_2(t_mlx *mlx);
-void					put_open_cl_info(t_open_cl *open_cl, t_mlx *mlx);
-
-void					put_status_1(t_mlx *mlx);
-void					put_status_2(t_status *status, t_mlx *mlx);
-void					put_status_3(t_status *status, t_mlx *mlx);
-void					put_status_4(t_status *status, t_mlx *mlx);
-void					put_status_5(t_status *status, t_mlx *mlx);
-
 t_open_cl				*init_open_cl(int device);
 void					get_device(t_open_cl *open_cl, int device);
 void					read_open_cl_kernel(t_open_cl *open_cl);
 void					load_open_cl_kernel(t_open_cl *open_cl);
 
 void					get_open_cl_info(t_open_cl *open_cl);
-void					get_device_info_1(t_open_cl *open_cl);
-void					get_device_info_2(t_open_cl *open_cl);
+void					get_device_info(t_open_cl *open_cl);
 void					get_platform_info(t_open_cl *open_cl);
-void					get_program_build_log(t_open_cl *open_cl);
 
-void					run_open_cl(t_global *global);
+void					run_open_cl(t_status *status, t_open_cl *open_cl,
+						int *res);
 void					set_arg_open_cl_kernel(t_status *status,
 						t_open_cl *open_cl);
 void					pack_arg_to_struct(t_status *status,
 						t_kernel_arg *kernel_arg);
-void					execute_open_cl_kernel(t_open_cl *open_cl);
-void					get_open_cl_result(t_open_cl *open_cl, t_sdl *sdl);
 
 void					clean_open_cl(t_open_cl *open_cl);
 void					clean_open_cl_1(t_open_cl *open_cl);
 void					clean_open_cl_2(t_open_cl *open_cl);
+void					clean_open_cl_info(t_open_cl *open_cl);
 
+void					pfn_notify(const char *errinfo,
+						const void *private_info, size_t cb, void *user_data);
 void					put_error_pn(char *str);
-void					put_open_cl_error(t_open_cl *open_cl, char *str,
-						cl_int err_code);
-char					*open_cl_error_interpret(cl_int err_code);
-char					*open_cl_error_1(cl_int err_code);
-
-char					*open_cl_error_2(cl_int err_code);
-char					*open_cl_error_3(cl_int err_code);
-char					*open_cl_error_4(cl_int err_code);
-char					*open_cl_error_5(cl_int err_code);
-char					*open_cl_error_6(cl_int err_code);
-
-
-void	clean_sdl(t_sdl *sdl);
+void					put_open_cl_error(t_open_cl *open_cl, char *str);
 
 #endif

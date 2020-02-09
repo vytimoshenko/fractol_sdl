@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 21:03:15 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/08 03:42:05 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/08 21:15:15 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,18 @@ void	mouse_move(int x, int y, t_global *global)
 	draw(global);
 }
 
-void	mouse_key_press(int key, int x, int y, t_global *global)
+void	mouse_key_press(int key, t_global *global)
 {
 	if (key == SDL_BUTTON_MIDDLE)
 		global->status->middle_mouse_button = 1;
-	(void)x;
-	(void)y;
 	draw(global);
 }
 
-int		mouse_key_release(int key, int x, int y, t_global *global)
+void	mouse_key_release(int key, t_global *global)
 {
-	(void)x;
-	(void)y;
 	if (key == SDL_BUTTON_MIDDLE)
 		global->status->middle_mouse_button = 0;
 	draw(global);
-	return (0);
 }
 
 void	mouse_scroll(int wheel, t_global *global)
@@ -66,19 +61,4 @@ void	keyboard_key_press(int key, t_global *global)
 	if (key == SDL_SCANCODE_D)
 		control_device(global);
 	draw(global);
-}
-
-void	clean_sdl(t_sdl *sdl)
-{
-	SDL_DestroyTexture(sdl->tex);
-	SDL_DestroyRenderer(sdl->ren);
-	SDL_DestroyWindow(sdl->win);
-	SDL_Quit();
-}
-
-void	close_window(t_global *global)
-{
-	clean_open_cl(global->open_cl);
-	clean_sdl(global->sdl);
-	exit(0);
 }

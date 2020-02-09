@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol_main.c                                     :+:      :+:    :+:   */
+/*   fractol_sdl_clean.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/24 15:09:39 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/09 02:07:49 by mperseus         ###   ########.fr       */
+/*   Created: 2020/02/08 20:59:54 by mperseus          #+#    #+#             */
+/*   Updated: 2020/02/09 03:52:41 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	main(int argc, char **argv)
+void	clean_sdl(t_sdl *sdl)
 {
-	t_global	global;
+	SDL_DestroyTexture(sdl->tex);
+	SDL_DestroyRenderer(sdl->ren);
+	SDL_DestroyWindow(sdl->win);
+	SDL_Quit();
+}
 
-	global.status = init_status(argc, argv);
-	global.sdl = init_sdl();
-	global.open_cl = init_open_cl(global.status->device);
-	draw(&global);
-	return (0);
+void	close_window(t_global *global)
+{
+	clean_open_cl(global->open_cl);
+	clean_sdl(global->sdl);
+    exit(0);
 }

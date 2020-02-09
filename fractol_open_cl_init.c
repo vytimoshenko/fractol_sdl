@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 23:26:21 by mperseus          #+#    #+#             */
-/*   Updated: 2020/01/31 23:24:54 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/09 03:51:22 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,18 @@
 t_open_cl	*init_open_cl(int device)
 {
 	t_open_cl	*open_cl;
-	cl_int		err_code;
 
-	err_code = 1;
 	if (!(open_cl = (t_open_cl *)ft_memalloc(sizeof(t_open_cl))))
 		ft_put_errno(PROGRAM_NAME);
-	if ((err_code = clGetPlatformIDs(1, &(open_cl->platform_id), NULL)))
-		put_open_cl_error(open_cl, "clGetPlatformIDs error", err_code);
+	if (clGetPlatformIDs(1, &(open_cl->platform_id), NULL))
+		put_open_cl_error(open_cl, "clGetPlatformIDs");
 	get_device(open_cl, device);
 	if (!(open_cl->context = clCreateContext(NULL, 1, &(open_cl->device_id),
-	NULL, NULL, &err_code)))
-		put_open_cl_error(open_cl, "clCreateContext error", err_code);
+	&pfn_notify, NULL, NULL)))
+		put_open_cl_error(open_cl, "clCreateContext");
 	if (!(open_cl->command_queue = clCreateCommandQueue(open_cl->context,
-	open_cl->device_id, 0, &err_code)))
-		put_open_cl_error(open_cl, "clCreateCommandQueue error", err_code);
+	open_cl->device_id, 0, NULL)))
+		put_open_cl_error(open_cl, "clCreateCommandQueue");
 	load_open_cl_kernel(open_cl);
 	get_open_cl_info(open_cl);
 	open_cl->global_work_size = IMG_SIZE_X * IMG_SIZE_Y;
@@ -38,19 +36,17 @@ t_open_cl	*init_open_cl(int device)
 
 void		get_device(t_open_cl *open_cl, int device)
 {
-	cl_int		err_code;
-
 	if (device == CPU)
 	{
-		if ((err_code = clGetDeviceIDs(open_cl->platform_id, CL_DEVICE_TYPE_CPU,
-		1, &(open_cl->device_id), NULL)))
-			put_open_cl_error(open_cl, "clGetDeviceIDs error", err_code);
+		if (clGetDeviceIDs(open_cl->platform_id, CL_DEVICE_TYPE_CPU, 1,
+		&(open_cl->device_id), NULL))
+			put_open_cl_error(open_cl, "clGetDeviceIDs");
 	}
 	if (device == GPU)
 	{
-		if ((err_code = clGetDeviceIDs(open_cl->platform_id, CL_DEVICE_TYPE_GPU,
-		1, &(open_cl->device_id), NULL)))
-			put_open_cl_error(open_cl, "clGetDeviceIDs error", err_code);
+		if (clGetDeviceIDs(open_cl->platform_id, CL_DEVICE_TYPE_GPU, 1,
+		&(open_cl->device_id), NULL))
+			put_open_cl_error(open_cl, "clGetDeviceIDs");
 	}
 }
 
@@ -67,7 +63,7 @@ void		read_open_cl_kernel(t_open_cl *open_cl)
 		ft_put_errno(PROGRAM_NAME);
 	if ((open_cl->source_size = read(fd, open_cl->source_str,
 	MAX_SOURCE_SIZE)) <= 0)
-		put_error_pn("OpenCL source file reading error");
+		put_error_pn("OpenCL source file reading");
 	if (read(fd, open_cl->source_str, MAX_SOURCE_SIZE))
 		put_error_pn("max OpenCL source file size exceed");
 	close(fd);
@@ -75,19 +71,15 @@ void		read_open_cl_kernel(t_open_cl *open_cl)
 
 void		load_open_cl_kernel(t_open_cl *open_cl)
 {
-	cl_int	err_code;
-
-	err_code = 1;
 	read_open_cl_kernel(open_cl);
 	if (!(open_cl->program = clCreateProgramWithSource(open_cl->context, 1,
 	(const char **)&(open_cl->source_str),
-	(const size_t *)&(open_cl->source_size), &err_code)))
-		put_open_cl_error(open_cl, "clCreateProgramWithSource error", err_code);
-	free(open_cl->source_str);
-	if ((err_code = clBuildProgram(open_cl->program, 1, &(open_cl->device_id),
-	NULL, NULL, NULL)))
-		put_open_cl_error(open_cl, "clBuildProgram error", err_code);
+	(const size_t *)&(open_cl->source_size), NULL)))
+		put_open_cl_error(open_cl, "clCreateProgramWithSource");
+	if (clBuildProgram(open_cl->program, 1, &(open_cl->device_id),
+	NULL, NULL, NULL))
+		put_open_cl_error(open_cl, "clBuildProgram");
 	if (!(open_cl->kernel = clCreateKernel(open_cl->program, KERNEL_NAME,
-	&err_code)))
-		put_open_cl_error(open_cl, "clCreateKernel error", err_code);
+	NULL)))
+		put_open_cl_error(open_cl, "clCreateKernel");
 }
