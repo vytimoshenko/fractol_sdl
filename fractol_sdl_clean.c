@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/08 20:59:54 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/09 03:52:41 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/10 01:20:51 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,19 @@
 
 void	clean_sdl(t_sdl *sdl)
 {
-	SDL_DestroyTexture(sdl->tex);
-	SDL_DestroyRenderer(sdl->ren);
-	SDL_DestroyWindow(sdl->win);
+	(void)sdl;
+	if (sdl->fractal_texture)
+		SDL_DestroyTexture(sdl->fractal_texture);
+	if ((sdl->text_texture))
+		SDL_DestroyTexture(sdl->text_texture);
+	if ((sdl->text_surface))
+		SDL_FreeSurface(sdl->text_surface);
+	if (sdl->ren)
+		SDL_DestroyRenderer(sdl->ren);
+	if (sdl->win)
+		SDL_DestroyWindow(sdl->win);
+	TTF_CloseFont(sdl->text_font);
+	TTF_Quit();
 	SDL_Quit();
 }
 

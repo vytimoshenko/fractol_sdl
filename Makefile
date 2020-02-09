@@ -6,7 +6,7 @@
 #    By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/16 19:45:56 by hlorrine          #+#    #+#              #
-#    Updated: 2020/02/09 03:52:08 by mperseus         ###   ########.fr        #
+#    Updated: 2020/02/10 00:53:00 by mperseus         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,33 +29,37 @@ SRC		= 	fractol_main.c					\
 		
 OBJ		= 	$(SRC:.c=.o)
 
-LIB		=	make -C libft
+MK_LIB	=	make -C libft
+CL_LIB	=	make clean -C libft
+FCL_LIB	=	make fclean -C libft
 
 ADD_ERR =	-Wall -Wextra -Werror
 
 ADD_OPT =	-Ofast
 
-ADD_LIB =	-L./libft -lft\
-			-L/usr/local/lib/\
-			-L SDL2/lib -l SDL2
+ADD_LIB =	-L./libft			-l ft\
+			-L./SDL2/SDL2 		-l SDL2\
+			-L./SDL2/SDL2_ttf 	-l SDL2_ttf\
+			-L./SDL2/SDL2_image	-l SDL2_image
 			
-ADD_FMW =	-lmlx -framework OpenGL -framework AppKit\
-			-framework OpenCL 
+ADD_FMW =	-framework OpenCL 
 
 all:		$(NAME)
 
 $(NAME):	$(OBJ)
-			$(LIB)
+			$(MK_LIB)
 			gcc -o $(NAME) $(OBJ) $(ADD_ERR) $(ADD_OPT) $(ADD_LIB) $(ADD_FMW)
 
-%.o: %.c
+%.o:		%.c
 			gcc -I $(HDR) $< -c -o $@ $(ADD_ERR) $(ADD_OPT)
 
-clean:
+clean:		
 			@/bin/rm -f $(OBJ)
+			# $(CL_LIB)
 
 fclean: 	clean
 			@/bin/rm -f $(NAME)
+			# $(FCL_LIB)
 
 re: 		fclean all
 

@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/09 04:20:46 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/10 01:39:48 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 # include "./libft/libft.h"
 # include "./SDL2/headers/SDL.h"
+# include "./SDL2/headers/SDL_ttf.h"
+# include "./SDL2/headers/SDL_image.h"
 # include <OpenCL/opencl.h>
 
 # define PROGRAM_NAME			"fractol"
@@ -25,6 +27,7 @@
 # define IMG_SIZE_X				2560
 # define IMG_SIZE_Y				1400
 
+# define TEXT_FONT				"DejaVuSans.ttf"
 # define TEXT_COLOR  			0xFFFFFF
 # define BACK_COLOR  			0x555555
 
@@ -46,8 +49,14 @@ typedef struct			s_sdl
 {
     SDL_Window     		*win;
     SDL_Renderer   		*ren;
-    SDL_Texture    		*tex;
+
+    SDL_Texture    		*fractal_texture;
     int             	*data;
+
+	TTF_Font			*text_font;
+	SDL_Color			text_color;
+	SDL_Surface			*text_surface;
+	SDL_Texture    		*text_texture;
 }						t_sdl;
 
 typedef struct			s_open_cl
