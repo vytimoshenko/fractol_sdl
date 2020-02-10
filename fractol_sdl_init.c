@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 01:37:34 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/10 02:08:03 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/10 19:58:48 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,14 @@ t_sdl	*init_sdl(void)
 	TTF_Init();
 	// IMG_Init();
 	sdl->win = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED,
-	SDL_WINDOWPOS_UNDEFINED, WIN_SIZE_X, WIN_SIZE_Y, 0);
-	// SDL_SetWindowFullscreen(sdl->win, 0);
+	SDL_WINDOWPOS_UNDEFINED, WIN_SIZE_W, WIN_SIZE_H, 0);
 	sdl->ren = SDL_CreateRenderer(sdl->win, -1, 0);
-	sdl->fractal_texture = SDL_CreateTexture(sdl->ren, SDL_PIXELFORMAT_ARGB8888,
-	SDL_TEXTUREACCESS_STREAMING, IMG_SIZE_X, IMG_SIZE_Y);
-	sdl->data = (int *)malloc(sizeof(int) * IMG_SIZE_X * IMG_SIZE_Y);
-	ft_memset(sdl->data, 128, sizeof(int) * IMG_SIZE_X * IMG_SIZE_Y);
-
+	sdl->data = (int *)ft_memalloc(sizeof(int) * IMG_SIZE_W * IMG_SIZE_H);
 	sdl->text_font = TTF_OpenFont(TEXT_FONT, 124);
 	sdl->text_color.r = 255;
 	sdl->text_color.g = 255;
 	sdl->text_color.b = 255;
 	sdl->text_color.a = 255;
-	
 	return (sdl);
 }
 
@@ -61,46 +55,30 @@ void	draw_text(t_global *global)
 	char	*str;
 	
 	sdl = global->sdl;
-
-	SDL_UpdateTexture(sdl->fractal_texture, NULL, sdl->data, sizeof(int) * IMG_SIZE_X);
-	SDL_QueryTexture(sdl->fractal_texture, NULL, NULL, NULL, NULL);
-	// SDL_BlitSurface(sdl->surface, &source_rect, temp_surface, NULL);
-	SDL_RenderClear(sdl->ren);
-	SDL_RenderCopy(sdl->ren, sdl->fractal_texture, NULL, NULL);
-	SDL_RenderPresent(sdl->ren);
-	SDL_Delay(20);
-
 	SDL_Rect text_rect;
-		text_rect.x = text_rect.y = 0;
-		text_rect.w = text_rect.h = 500;
-		SDL_Rect dst_rect = {0, 0, text_rect.w, text_rect.h};
+	text_rect.x = text_rect.y = 0;
+	text_rect.w = IMG_SIZE_W;
+	text_rect.h = IMG_SIZE_H;
+	// SDL_Rect dst_rect = {0, 0, text_rect.w, text_rect.h};
 	sdl->text_surface = TTF_RenderText_Solid(sdl->text_font, str = ft_itoa(global->status->fractal_type), sdl->text_color);
-	sdl->text_texture = SDL_CreateTextureFromSurface(sdl->ren, sdl->text_surface);
-
-	// SDL_SetTextureBlendMode(sdl->fractal_texture, SDL_BLENDMODE_BLEND);
-	// SDL_SetRenderTarget(sdl->ren, sdl->fractal_texture);
-
-	SDL_FreeSurface(sdl->text_surface);
-	SDL_QueryTexture(sdl->text_texture, NULL, NULL, &text_rect.w, &text_rect.h);
-	SDL_RenderClear(sdl->ren);
-	SDL_RenderCopy(sdl->ren, sdl->text_texture, NULL,  &dst_rect);
-	SDL_DestroyTexture(sdl->text_texture);
-	SDL_RenderPresent(sdl->ren);
-	sdl->text_surface = NULL;
-	sdl->text_texture = NULL;
 	free(str);
-	SDL_Delay(10);
 }
 
 void	draw_fractal(t_sdl *sdl)
 {
-	SDL_UpdateTexture(sdl->fractal_texture, NULL, sdl->data, sizeof(int) * IMG_SIZE_X);
-	SDL_QueryTexture(sdl->fractal_texture, NULL, NULL, NULL, NULL);
-	// SDL_BlitSurface(sdl->surface, &source_rect, temp_surface, NULL);
+	sdl->main_surface = SDL_CreateRGBSurfaceFrom(sdl->data, IMG_SIZE_W, IMG_SIZE_H, 32, sizeof(int) * IMG_SIZE_W, 0, 0, 0, 0);
+	SDL_BlitSurface(sdl->text_surface, NULL, sdl->main_surface, NULL);
+	sdl->main_texture = SDL_CreateTextureFromSurface(sdl->ren, sdl->main_surface);
+	SDL_QueryTexture(sdl->main_texture, NULL, NULL, NULL, NULL);
 	SDL_RenderClear(sdl->ren);
-	SDL_RenderCopy(sdl->ren, sdl->fractal_texture, NULL, NULL);
+	SDL_RenderCopy(sdl->ren, sdl->main_texture, NULL, NULL);
 	SDL_RenderPresent(sdl->ren);
-	SDL_Delay(20);
+	SDL_FreeSurface(sdl->main_surface);
+	SDL_FreeSurface(sdl->text_surface);
+	SDL_DestroyTexture(sdl->main_texture);
+	sdl->main_surface = NULL;
+	sdl->text_surface = NULL;
+	sdl->main_texture = NULL;
 }
 
 void	draw(t_global *global)
@@ -113,9 +91,9 @@ void	draw(t_global *global)
 	{
 		SDL_PollEvent(&event);
 		sdl_events(global, event);
-		// if (!(global->status->hide_info))
 		run_open_cl(global->status, global->open_cl, global->sdl->data);
+		if (!(global->status->hide_info))
 			draw_text(global);	
-		// draw_fractal(global->sdl);
+		draw_fractal(global->sdl);
 	}
 }

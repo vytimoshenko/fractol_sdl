@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/08 03:42:01 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/10 19:45:07 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	get_mouse_position(t_status *status, int x, int y)
 {
 	status->x_mouse_position = x;
 	status->y_mouse_position = y;
-	if (x < 0 || y < 0 || x > IMG_SIZE_X || y > IMG_SIZE_Y)
+	if (x < 0 || y < 0 || x > IMG_SIZE_W || y > IMG_SIZE_H)
 	{
 		status->x_mouse_position = 0;
 		status->y_mouse_position = 0;

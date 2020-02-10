@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/10 01:39:48 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/10 19:54:19 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,21 @@
 # include "./libft/libft.h"
 # include "./SDL2/headers/SDL.h"
 # include "./SDL2/headers/SDL_ttf.h"
-# include "./SDL2/headers/SDL_image.h"
+// # include "./SDL2/headers/SDL_image.h"
 # include <OpenCL/opencl.h>
 
 # define PROGRAM_NAME			"fractol"
 
-# define WIN_SIZE_X 			2560
-# define WIN_SIZE_Y				1400
-# define IMG_SIZE_X				2560
-# define IMG_SIZE_Y				1400
+# define WIN_SIZE_W 			2560
+# define WIN_SIZE_H				1400
+# define IMG_SIZE_W				2560
+# define IMG_SIZE_H				1400
 
 # define TEXT_FONT				"DejaVuSans.ttf"
-# define TEXT_COLOR  			0xFFFFFF
-# define BACK_COLOR  			0x555555
+# define TEXT_COLOR_R  			255
+# define TEXT_COLOR_G  			255
+# define TEXT_COLOR_B  			255
+# define TEXT_COLOR_A  			255
 
 # define CPU					0
 # define GPU					1
@@ -50,13 +52,13 @@ typedef struct			s_sdl
     SDL_Window     		*win;
     SDL_Renderer   		*ren;
 
-    SDL_Texture    		*fractal_texture;
     int             	*data;
+    SDL_Surface			*main_surface;
+	SDL_Texture    		*main_texture;
 
 	TTF_Font			*text_font;
 	SDL_Color			text_color;
 	SDL_Surface			*text_surface;
-	SDL_Texture    		*text_texture;
 }						t_sdl;
 
 typedef struct			s_open_cl

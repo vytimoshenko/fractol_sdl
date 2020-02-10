@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/08 20:58:42 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/10 19:45:23 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ void	control_device(t_global *global)
 
 void	set_julia(t_status *status, int x, int y)
 {
-	status->x_julia = ((double)x - (double)IMG_SIZE_X / 2) * 0.002;
-	status->y_julia = ((double)y - (double)IMG_SIZE_Y / 2) * 0.002;
+	status->x_julia = ((double)x - (double)IMG_SIZE_W / 2) * 0.002;
+	status->y_julia = ((double)y - (double)IMG_SIZE_H / 2) * 0.002;
 }
