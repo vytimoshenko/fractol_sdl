@@ -6,7 +6,7 @@
 #    By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/16 19:45:56 by hlorrine          #+#    #+#              #
-#    Updated: 2020/02/10 00:53:00 by mperseus         ###   ########.fr        #
+#    Updated: 2020/02/12 01:33:52 by mperseus         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,11 @@ HDR		= 	fractol.h
 SRC		= 	fractol_main.c					\
 			fractol_status_init.c			\
 			fractol_sdl_init.c				\
+			fractol_sdl_run.c				\
 			fractol_sdl_events.c			\
 			fractol_sdl_control_1.c			\
 			fractol_sdl_control_2.c			\
-			fractol_sdl_clean.c				\
+			fractol_sdl_other.c				\
 			fractol_open_cl_init.c			\
 			fractol_open_cl_info.c			\
 			fractol_open_cl_run.c			\
@@ -32,6 +33,8 @@ OBJ		= 	$(SRC:.c=.o)
 MK_LIB	=	make -C libft
 CL_LIB	=	make clean -C libft
 FCL_LIB	=	make fclean -C libft
+
+MK_DIR	=	@/bin/mkdir screenshots
 
 ADD_ERR =	-Wall -Wextra -Werror
 
@@ -49,17 +52,19 @@ all:		$(NAME)
 $(NAME):	$(OBJ)
 			$(MK_LIB)
 			gcc -o $(NAME) $(OBJ) $(ADD_ERR) $(ADD_OPT) $(ADD_LIB) $(ADD_FMW)
+			$(MK_DIR)
 
 %.o:		%.c
 			gcc -I $(HDR) $< -c -o $@ $(ADD_ERR) $(ADD_OPT)
 
 clean:		
 			@/bin/rm -f $(OBJ)
-			# $(CL_LIB)
+			$(CL_LIB)
+			@/bin/rm -rf screenshots
 
 fclean: 	clean
 			@/bin/rm -f $(NAME)
-			# $(FCL_LIB)
+			$(FCL_LIB)
 
 re: 		fclean all
 

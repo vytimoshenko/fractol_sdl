@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/10 19:54:19 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 01:31:05 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@
 # include "./libft/libft.h"
 # include "./SDL2/headers/SDL.h"
 # include "./SDL2/headers/SDL_ttf.h"
-// # include "./SDL2/headers/SDL_image.h"
+# include "./SDL2/headers/SDL_image.h"
 # include <OpenCL/opencl.h>
+# include <sys/time.h>
 
 # define PROGRAM_NAME			"fractol"
+# define SCREENSHOT_PATH		"./screenshots/"
 
 # define WIN_SIZE_W 			2560
 # define WIN_SIZE_H				1400
 # define IMG_SIZE_W				2560
 # define IMG_SIZE_H				1400
 
-# define TEXT_FONT				"DejaVuSans.ttf"
+# define TEXT_FONT				"Pijamas.ttf"
 # define TEXT_COLOR_R  			255
 # define TEXT_COLOR_G  			255
 # define TEXT_COLOR_B  			255
@@ -49,16 +51,21 @@
 
 typedef struct			s_sdl
 {
-    SDL_Window     		*win;
-    SDL_Renderer   		*ren;
+	SDL_Window			*win;
+	SDL_Surface			*win_surface;
 
-    int             	*data;
-    SDL_Surface			*main_surface;
-	SDL_Texture    		*main_texture;
+	int					*data;
+	SDL_Surface			*main_surface;
 
 	TTF_Font			*text_font;
 	SDL_Color			text_color;
 	SDL_Surface			*text_surface;
+
+	int					frames;
+	int					fps;
+	float				frame_time;
+
+	int					screenshot_num;
 }						t_sdl;
 
 typedef struct			s_open_cl
@@ -84,6 +91,8 @@ typedef struct			s_open_cl
 	size_t				local_work_size;
 
 	cl_mem				buf;
+
+	int					execution_time;
 }						t_open_cl;
 
 typedef struct			s_status
@@ -148,17 +157,21 @@ void					error_wrong_argument(void);
 void					reset_status(t_status *status);
 
 t_sdl					*init_sdl(void);
-void					draw(t_global *global);
-void					sdl_events(t_global *global, SDL_Event event);
-
+void					reset_render_status(t_sdl *sdl);
 void					clean_sdl(t_sdl *sdl);
-void					close_window(t_global *global);
+
+void					sdl_events(t_global *global);
+void					draw(t_global *global);
+void					draw_image(t_sdl *sdl);
+void					draw_text(t_global *global);
+void					count_frames(t_sdl *sdl, struct timeval start,
+						struct timeval end);
 
 void					mouse_move(int x, int y, t_global *global);
 void					mouse_key_press(int key, t_global *global);
 void					mouse_scroll(int wheel, t_global *global);
 void					mouse_key_release(int key, t_global *global);
-void					keyboard_key_press(int key, t_global *global);
+int						keyboard_key_press(int key, t_global *global);
 
 void					get_mouse_position(t_status *status, int x, int y);
 void					control_zoom(t_status *status, int key);
@@ -166,11 +179,14 @@ void					control_mouse_zoom(t_status *status, int wheel);
 void					control_shift(t_status *status, int key);
 void					control_mouse_shift(t_status *status, int x, int y);
 
-void					control_type(t_status *status);
+void					control_type(t_status *status, t_sdl *sdl);
 void					control_iteration(t_status *status, int key);
 void					control_colors(t_status *status);
 void					control_device(t_global *global);
 void					set_julia(t_status *status, int x, int y);
+
+void					close_window(t_global *global);
+void					save_screenshot(t_sdl *sdl);
 
 t_open_cl				*init_open_cl(int device);
 void					get_device(t_open_cl *open_cl, int device);
@@ -187,6 +203,7 @@ void					set_arg_open_cl_kernel(t_status *status,
 						t_open_cl *open_cl);
 void					pack_arg_to_struct(t_status *status,
 						t_kernel_arg *kernel_arg);
+void					get_execution_time(t_open_cl *open_cl, cl_event event);
 
 void					clean_open_cl(t_open_cl *open_cl);
 void					clean_open_cl_1(t_open_cl *open_cl);

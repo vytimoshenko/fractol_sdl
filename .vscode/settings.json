@@ -5,6 +5,7 @@
         "iterator": "c",
         "string": "c",
         "vector": "c",
-        "fractol.h": "c"
+        "fractol.h": "c",
+        "_limits.h": "c"
     }
 }

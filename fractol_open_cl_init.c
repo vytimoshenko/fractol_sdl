@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 23:26:21 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/10 19:44:25 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/11 03:52:40 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_open_cl	*init_open_cl(int device)
 	&pfn_notify, NULL, NULL)))
 		put_open_cl_error(open_cl, "clCreateContext");
 	if (!(open_cl->command_queue = clCreateCommandQueue(open_cl->context,
-	open_cl->device_id, 0, NULL)))
+	open_cl->device_id, CL_QUEUE_PROFILING_ENABLE, NULL)))
 		put_open_cl_error(open_cl, "clCreateCommandQueue");
 	load_open_cl_kernel(open_cl);
 	get_open_cl_info(open_cl);

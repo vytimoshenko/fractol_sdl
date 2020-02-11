@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/10 19:45:07 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 00:29:03 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	get_mouse_position(t_status *status, int x, int y)
 
 void	control_zoom(t_status *status, int key)
 {
-	if (key == SDL_SCANCODE_KP_PLUS)
+	if (key == SDL_SCANCODE_EQUALS)
 		status->zoom *= 1.1;
-	else if (key == SDL_SCANCODE_KP_MINUS)
+	else if (key == SDL_SCANCODE_MINUS)
 		status->zoom /= 1.1;
 }
 

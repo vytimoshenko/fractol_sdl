@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:12:19 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/10 19:45:43 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/11 05:15:12 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 void	run_open_cl(t_status *status, t_open_cl *open_cl, int *res)
 {
+	cl_event event;
+
+	event = NULL;
 	set_arg_open_cl_kernel(status, open_cl);
 	if (clEnqueueNDRangeKernel(open_cl->command_queue, open_cl->kernel, 1, NULL,
-	&(open_cl->global_work_size), &(open_cl->local_work_size), 0, NULL, NULL))
+	&(open_cl->global_work_size), &(open_cl->local_work_size), 0, NULL, &event))
 		put_open_cl_error(open_cl, "clEnqueueNDRangeKernel");
+	if (clWaitForEvents(1, &event))
+		put_open_cl_error(open_cl, "clWaitForEvents");
+	if (clFlush(open_cl->command_queue))
+		put_open_cl_error(open_cl, "clFlush");
+	get_execution_time(open_cl, event);
+	clReleaseEvent(event);
 	if (clEnqueueReadBuffer(open_cl->command_queue, open_cl->buf, CL_TRUE, 0,
 	open_cl->global_work_size * sizeof(int), res, 0, NULL, NULL))
 		put_open_cl_error(open_cl, "clEnqueueReadBuffer");
@@ -54,4 +63,16 @@ void	pack_arg_to_struct(t_status *status, t_kernel_arg *kernel_arg)
 	kernel_arg->y_shift = status->y_shift;
 	kernel_arg->x_julia = status->x_julia;
 	kernel_arg->y_julia = status->y_julia;
+}
+
+void	get_execution_time(t_open_cl *open_cl, cl_event event)
+{
+	cl_ulong start;
+	cl_ulong end;
+
+	clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_START, sizeof(start),
+	&start, NULL);
+	clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_END, sizeof(end), &end,
+	NULL);
+	open_cl->execution_time = (int)((end - start) / 1000000);
 }

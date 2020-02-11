@@ -6,24 +6,25 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/10 19:45:23 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 00:27:10 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	control_type(t_status *status)
+void	control_type(t_status *status, t_sdl *sdl)
 {
 	if (status->fractal_type != 5)
 		status->fractal_type++;
 	else
 		status->fractal_type = 1;
 	reset_status(status);
+	reset_render_status(sdl);
 }
 
 void	control_iteration(t_status *status, int key)
 {
-	if (key == SDL_SCANCODE_PERIOD)
+	if (key == SDL_SCANCODE_PERIOD && status->iter)
 		status->iter += 10;
 	else if (key == SDL_SCANCODE_COMMA && status->iter > 10)
 		status->iter -= 10;
@@ -44,6 +45,7 @@ void	control_device(t_global *global)
 	else
 		global->status->device = 0;
 	clean_open_cl(global->open_cl);
+	reset_render_status(global->sdl);
 	global->open_cl = init_open_cl(global->status->device);
 }
 

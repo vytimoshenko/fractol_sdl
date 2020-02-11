@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 01:34:38 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/10 19:44:45 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 01:28:28 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_status	*init_status(int argc, char **argv)
 {
-	t_status		*status;
+	t_status	*status;
 
 	if (argc != 2)
 		error_wrong_argument();
@@ -25,7 +25,7 @@ t_status	*init_status(int argc, char **argv)
 	return (status);
 }
 
-void	check_argument(t_status *status, char *argv)
+void		check_argument(t_status *status, char *argv)
 {
 	if (ft_atoi(argv) == MANDELBROT)
 		status->fractal_type = 1;
@@ -41,7 +41,7 @@ void	check_argument(t_status *status, char *argv)
 		error_wrong_argument();
 }
 
-void	error_wrong_argument(void)
+void		error_wrong_argument(void)
 {
 	ft_putendl("usage:");
 	ft_putendl("\tmandelbrot\t1");
@@ -52,7 +52,7 @@ void	error_wrong_argument(void)
 	exit(1);
 }
 
-void	reset_status(t_status *status)
+void		reset_status(t_status *status)
 {
 	status->color_theme = 0;
 	status->iter = 100;
