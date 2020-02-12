@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 01:37:34 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 19:00:32 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 22:17:41 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	put_sdl_error(t_sdl *sdl, char *str)
 	ft_putstr(PROGRAM_NAME);
 	ft_putstr(": error occured in SDL function ");
 	ft_putendl(str);
+	ft_putendl(SDL_GetError());
 	clean_sdl(sdl);
 	exit(1);
 }
