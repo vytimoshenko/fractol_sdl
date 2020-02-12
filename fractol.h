@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 04:13:48 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 19:14:55 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,13 +158,15 @@ void					error_wrong_argument(void);
 void					reset_status(t_status *status);
 
 t_sdl					*init_sdl(void);
+void					init_ttf(t_sdl *sdl);
 void					reset_render_status(t_sdl *sdl);
 void					clean_sdl(t_sdl *sdl);
+void					put_sdl_error(t_sdl *sdl, char *str);
 
-void					sdl_events(t_global *global);
+void					loop(t_global *global);
 void					draw(t_global *global);
-void					draw_image(t_sdl *sdl);
-void					draw_text(t_global *global);
+void					draw_image(t_sdl *sdl, int hide_info);
+void					draw_text(t_sdl *sdl, t_status *status);
 void					count_frames(t_sdl *sdl, struct timeval start,
 						struct timeval end);
 

@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/08 20:59:54 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 01:28:31 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 19:18:16 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	save_screenshot(t_sdl *sdl)
 	free(tmp1);
 	file_name = ft_strjoin(SCREENSHOT_PATH, tmp2);
 	free(tmp2);
-	IMG_SaveJPG(sdl->main_surface, file_name, 100);
+	if (IMG_SaveJPG(sdl->main_surface, file_name, 100))
+		put_sdl_error(sdl, "IMG_SaveJPG");
 	free(file_name);
 	++sdl->screenshot_num;
 }

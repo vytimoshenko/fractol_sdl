@@ -6,13 +6,13 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 23:55:53 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 04:13:32 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 19:15:15 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	sdl_events(t_global *global)
+void	loop(t_global *global)
 {
 	SDL_Event		event;
 	int				quit;
@@ -47,48 +47,63 @@ void	draw(t_global *global)
 	gettimeofday(&start, NULL);
 	run_open_cl(global->status, global->open_cl, global->sdl->data);
 	if (!(global->status->hide_info))
-		draw_text(global);
-	draw_image(global->sdl);
+		draw_text(global->sdl, global->status);
+	draw_image(global->sdl, global->status->hide_info);
 	gettimeofday(&end, NULL);
 	count_frames(global->sdl, start, end);
 }
 
-void	draw_image(t_sdl *sdl)
+void	draw_image(t_sdl *sdl, int hide_info)
 {
 	SDL_FreeSurface(sdl->main_surface);
 	sdl->main_surface = NULL;
-	sdl->main_surface = SDL_CreateRGBSurfaceFrom(sdl->data, IMG_SIZE_W,
-	IMG_SIZE_H, 32, sizeof(int) * IMG_SIZE_W, 0, 0, 0, 0);
-	SDL_BlitSurface(sdl->text_surface, NULL, sdl->main_surface, NULL);
-	SDL_BlitSurface(sdl->main_surface, NULL, sdl->win_surface, NULL);
-	SDL_UpdateWindowSurface(sdl->win);
+	if (!(sdl->main_surface = SDL_CreateRGBSurfaceFrom(sdl->data, IMG_SIZE_W,
+	IMG_SIZE_H, 32, sizeof(int) * IMG_SIZE_W, 0, 0, 0, 0)))
+		put_sdl_error(sdl, "SDL_CreateRGBSurfaceFrom");
+	if (!(hide_info) && sdl->text_surface)
+	{
+		if (SDL_BlitSurface(sdl->text_surface, NULL, sdl->main_surface, NULL))
+			put_sdl_error(sdl, "SDL_BlitSurface");
+	}
+	if (SDL_BlitSurface(sdl->main_surface, NULL, sdl->win_surface, NULL))
+		put_sdl_error(sdl, "SDL_BlitSurface");
+	if (SDL_UpdateWindowSurface(sdl->win))
+		put_sdl_error(sdl, "SDL_UpdateWindowSurface");
 	SDL_FreeSurface(sdl->text_surface);
 	sdl->text_surface = NULL;
 }
 
-void	draw_text(t_global *global)
+void	draw_text(t_sdl *sdl, t_status *status)
 {
-	t_sdl		*sdl;
 	char		*str;
 	SDL_Surface *tmp_text_surface1;
 	SDL_Surface *tmp_text_surface2;
 
-	sdl = global->sdl;
-	tmp_text_surface1 = TTF_RenderText_Blended(sdl->text_font,
-	str = ft_itoa(sdl->fps), sdl->text_color);
+	if (!(tmp_text_surface1 = TTF_RenderText_Blended(sdl->text_font,
+	str = ft_itoa(sdl->fps), sdl->text_color)))
+		put_sdl_error(sdl, "STTF_RenderText_Blended");
 	free(str);
-	tmp_text_surface2 = TTF_RenderText_Blended(sdl->text_font,
-	"     FPS", sdl->text_color);
-	SDL_BlitSurface(tmp_text_surface1, NULL, tmp_text_surface2, NULL);
+	if (!(tmp_text_surface2 = TTF_RenderText_Blended(sdl->text_font,
+	"     FPS", sdl->text_color)))
+		put_sdl_error(sdl, "STTF_RenderText_Blended");
+	if (SDL_BlitSurface(tmp_text_surface1, NULL, tmp_text_surface2, NULL))
+		put_sdl_error(sdl, "SDL_BlitSurface");
 	SDL_FreeSurface(tmp_text_surface1);
 	tmp_text_surface1 = NULL;
-	if (global->status->device == 0)
-		sdl->text_surface = TTF_RenderText_Blended(sdl->text_font,
-		"            CPU", sdl->text_color);
+	if (status->device == 0)
+	{
+		if (!(sdl->text_surface = TTF_RenderText_Blended(sdl->text_font,
+		"            CPU", sdl->text_color)))
+			put_sdl_error(sdl, "STTF_RenderText_Blended");
+	}
 	else
-		sdl->text_surface = TTF_RenderText_Blended(sdl->text_font,
-		"            GPU", sdl->text_color);
-	SDL_BlitSurface(tmp_text_surface2, NULL, sdl->text_surface, NULL);
+	{
+		if (!(sdl->text_surface = TTF_RenderText_Blended(sdl->text_font,
+		"            GPU", sdl->text_color)))
+			put_sdl_error(sdl, "STTF_RenderText_Blended");
+	}
+	if (SDL_BlitSurface(tmp_text_surface2, NULL, sdl->text_surface, NULL))
+		put_sdl_error(sdl, "SDL_BlitSurface");
 	SDL_FreeSurface(tmp_text_surface2);
 	tmp_text_surface2 = NULL;
 }
