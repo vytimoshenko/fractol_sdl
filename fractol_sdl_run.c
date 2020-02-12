@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 23:55:53 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 19:15:15 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 01:06:04 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	loop(t_global *global)
 {
-	SDL_Event		event;
-	int				quit;
+	SDL_Event	event;
+	int			quit;
 
 	quit = 0;
+	draw_welcome(global->sdl);
 	draw(global);
 	while (!quit)
 	{
@@ -47,7 +48,7 @@ void	draw(t_global *global)
 	gettimeofday(&start, NULL);
 	run_open_cl(global->status, global->open_cl, global->sdl->data);
 	if (!(global->status->hide_info))
-		draw_text(global->sdl, global->status);
+		draw_info(global->sdl, global->status);
 	draw_image(global->sdl, global->status->hide_info);
 	gettimeofday(&end, NULL);
 	count_frames(global->sdl, start, end);
@@ -71,41 +72,6 @@ void	draw_image(t_sdl *sdl, int hide_info)
 		put_sdl_error(sdl, "SDL_UpdateWindowSurface");
 	SDL_FreeSurface(sdl->text_surface);
 	sdl->text_surface = NULL;
-}
-
-void	draw_text(t_sdl *sdl, t_status *status)
-{
-	char		*str;
-	SDL_Surface *tmp_text_surface1;
-	SDL_Surface *tmp_text_surface2;
-
-	if (!(tmp_text_surface1 = TTF_RenderText_Blended(sdl->text_font,
-	str = ft_itoa(sdl->fps), sdl->text_color)))
-		put_sdl_error(sdl, "STTF_RenderText_Blended");
-	free(str);
-	if (!(tmp_text_surface2 = TTF_RenderText_Blended(sdl->text_font,
-	"     FPS", sdl->text_color)))
-		put_sdl_error(sdl, "STTF_RenderText_Blended");
-	if (SDL_BlitSurface(tmp_text_surface1, NULL, tmp_text_surface2, NULL))
-		put_sdl_error(sdl, "SDL_BlitSurface");
-	SDL_FreeSurface(tmp_text_surface1);
-	tmp_text_surface1 = NULL;
-	if (status->device == 0)
-	{
-		if (!(sdl->text_surface = TTF_RenderText_Blended(sdl->text_font,
-		"            CPU", sdl->text_color)))
-			put_sdl_error(sdl, "STTF_RenderText_Blended");
-	}
-	else
-	{
-		if (!(sdl->text_surface = TTF_RenderText_Blended(sdl->text_font,
-		"            GPU", sdl->text_color)))
-			put_sdl_error(sdl, "STTF_RenderText_Blended");
-	}
-	if (SDL_BlitSurface(tmp_text_surface2, NULL, sdl->text_surface, NULL))
-		put_sdl_error(sdl, "SDL_BlitSurface");
-	SDL_FreeSurface(tmp_text_surface2);
-	tmp_text_surface2 = NULL;
 }
 
 void	count_frames(t_sdl *sdl, struct timeval start, struct timeval end)

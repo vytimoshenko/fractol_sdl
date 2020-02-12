@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 22:17:40 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 01:08:12 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 # define IMG_SIZE_H				1400
 
 # define TEXT_FONT				"./fonts/SFChaerilidae-Bold.ttf"
-# define TEXT_SIZE				40
+# define TEXT_SIZE_WELCOME		700
+# define TEXT_SIZE_MAIN			40
 # define TEXT_COLOR_R  			255
 # define TEXT_COLOR_G  			255
 # define TEXT_COLOR_B  			255
@@ -58,7 +59,8 @@ typedef struct			s_sdl
 	int					*data;
 	SDL_Surface			*main_surface;
 
-	TTF_Font			*text_font;
+	TTF_Font			*text_font_welcome;
+	TTF_Font			*text_font_main;
 	SDL_Color			text_color;
 	SDL_Surface			*text_surface;
 
@@ -164,9 +166,10 @@ void					clean_sdl(t_sdl *sdl);
 void					put_sdl_error(t_sdl *sdl, char *str);
 
 void					loop(t_global *global);
+void					draw_welcome(t_sdl *sdl);
 void					draw(t_global *global);
 void					draw_image(t_sdl *sdl, int hide_info);
-void					draw_text(t_sdl *sdl, t_status *status);
+void					draw_info(t_sdl *sdl, t_status *status);
 void					count_frames(t_sdl *sdl, struct timeval start,
 						struct timeval end);
 

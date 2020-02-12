@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 01:37:34 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 22:17:41 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 23:59:19 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_sdl	*init_sdl(void)
 
 	if (!(sdl = (t_sdl *)ft_memalloc(sizeof(t_sdl))))
 		ft_put_errno(PROGRAM_NAME);
-	if (SDL_Init(SDL_INIT_VIDEO))
+	if (SDL_Init(SDL_INIT_EVERYTHING))
 		put_sdl_error(sdl, "SDL_Init");
 	if (!(sdl->win = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED,
 	SDL_WINDOWPOS_UNDEFINED, WIN_SIZE_W, WIN_SIZE_H, 0)))
@@ -36,7 +36,9 @@ void	init_ttf(t_sdl *sdl)
 {
 	if (TTF_Init())
 		put_sdl_error(sdl, "TTF_Init");
-	if (!(sdl->text_font = TTF_OpenFont(TEXT_FONT, TEXT_SIZE)))
+	if (!(sdl->text_font_main = TTF_OpenFont(TEXT_FONT, TEXT_SIZE_MAIN)))
+		put_sdl_error(sdl, "TTF_OpenFont");
+	if (!(sdl->text_font_welcome = TTF_OpenFont(TEXT_FONT, TEXT_SIZE_WELCOME)))
 		put_sdl_error(sdl, "TTF_OpenFont");
 	sdl->text_color.r = TEXT_COLOR_R;
 	sdl->text_color.g = TEXT_COLOR_G;
@@ -59,11 +61,10 @@ void	clean_sdl(t_sdl *sdl)
 			SDL_FreeSurface(sdl->main_surface);
 		if ((sdl->text_surface))
 			SDL_FreeSurface(sdl->text_surface);
-		if ((sdl->win_surface))
-			SDL_FreeSurface(sdl->win_surface);
 		if (sdl->win)
 			SDL_DestroyWindow(sdl->win);
-		TTF_CloseFont(sdl->text_font);
+		TTF_CloseFont(sdl->text_font_main);
+		TTF_CloseFont(sdl->text_font_welcome);
 		TTF_Quit();
 		IMG_Quit();
 		SDL_Quit();

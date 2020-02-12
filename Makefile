@@ -6,7 +6,7 @@
 #    By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/16 19:45:56 by hlorrine          #+#    #+#              #
-#    Updated: 2020/02/12 20:00:40 by mperseus         ###   ########.fr        #
+#    Updated: 2020/02/13 01:09:59 by mperseus         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC		= 	fractol_main.c					\
 			fractol_sdl_events.c			\
 			fractol_sdl_control_1.c			\
 			fractol_sdl_control_2.c			\
+			fractol_sdl_draw_info.c			\
 			fractol_sdl_other.c				\
 			fractol_open_cl_init.c			\
 			fractol_open_cl_info.c			\
