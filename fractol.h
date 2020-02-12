@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 01:31:05 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 04:13:48 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 # define IMG_SIZE_W				2560
 # define IMG_SIZE_H				1400
 
-# define TEXT_FONT				"Pijamas.ttf"
+# define TEXT_FONT				"./fonts/SFChaerilidae-Bold.ttf"
+# define TEXT_SIZE				40
 # define TEXT_COLOR_R  			255
 # define TEXT_COLOR_G  			255
 # define TEXT_COLOR_B  			255

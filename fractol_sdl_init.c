@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 01:37:34 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 01:29:13 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 04:17:30 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ t_sdl	*init_sdl(void)
 	SDL_WINDOWPOS_UNDEFINED, WIN_SIZE_W, WIN_SIZE_H, 0);
 	sdl->win_surface = SDL_GetWindowSurface(sdl->win);
 	sdl->data = (int *)ft_memalloc(sizeof(int) * IMG_SIZE_W * IMG_SIZE_H);
-	sdl->text_font = TTF_OpenFont(TEXT_FONT, 124);
-	sdl->text_color.r = 255;
-	sdl->text_color.g = 255;
-	sdl->text_color.b = 255;
-	sdl->text_color.a = 255;
+	sdl->text_font = TTF_OpenFont(TEXT_FONT, TEXT_SIZE);
+	sdl->text_color.r = TEXT_COLOR_R;
+	sdl->text_color.g = TEXT_COLOR_G;
+	sdl->text_color.b = TEXT_COLOR_B;
+	sdl->text_color.a = TEXT_COLOR_A;
 	return (sdl);
 }
 

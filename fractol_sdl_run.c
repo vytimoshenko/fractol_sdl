@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 23:55:53 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 01:28:35 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/12 04:13:32 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	draw(t_global *global)
 	draw_image(global->sdl);
 	gettimeofday(&end, NULL);
 	count_frames(global->sdl, start, end);
-	printf("frame#%d - ", global->sdl->frames);
-	printf("%dfps\n", global->sdl->fps);
 }
 
 void	draw_image(t_sdl *sdl)
@@ -70,16 +68,29 @@ void	draw_image(t_sdl *sdl)
 
 void	draw_text(t_global *global)
 {
-	t_sdl	*sdl;
+	t_sdl		*sdl;
+	char		*str;
+	SDL_Surface *tmp_text_surface1;
+	SDL_Surface *tmp_text_surface2;
 
 	sdl = global->sdl;
-	// SDL_Rect text_rect;
-	// text_rect.x = text_rect.y = 0;
-	// text_rect.w = IMG_SIZE_W;
-	// text_rect.h = IMG_SIZE_H;
-	// SDL_Rect dst_rect = {0, 0, text_rect.w, text_rect.h};
-	sdl->text_surface = TTF_RenderText_Blended(sdl->text_font,
-	"Funny Fractol project", sdl->text_color);
+	tmp_text_surface1 = TTF_RenderText_Blended(sdl->text_font,
+	str = ft_itoa(sdl->fps), sdl->text_color);
+	free(str);
+	tmp_text_surface2 = TTF_RenderText_Blended(sdl->text_font,
+	"     FPS", sdl->text_color);
+	SDL_BlitSurface(tmp_text_surface1, NULL, tmp_text_surface2, NULL);
+	SDL_FreeSurface(tmp_text_surface1);
+	tmp_text_surface1 = NULL;
+	if (global->status->device == 0)
+		sdl->text_surface = TTF_RenderText_Blended(sdl->text_font,
+		"            CPU", sdl->text_color);
+	else
+		sdl->text_surface = TTF_RenderText_Blended(sdl->text_font,
+		"            GPU", sdl->text_color);
+	SDL_BlitSurface(tmp_text_surface2, NULL, sdl->text_surface, NULL);
+	SDL_FreeSurface(tmp_text_surface2);
+	tmp_text_surface2 = NULL;
 }
 
 void	count_frames(t_sdl *sdl, struct timeval start, struct timeval end)
