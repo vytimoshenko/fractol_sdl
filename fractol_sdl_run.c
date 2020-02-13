@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 23:55:53 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 03:12:20 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 00:03:45 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ void	draw(t_global *global)
 
 void	draw_image(t_sdl *sdl, int hide_info)
 {
+	if ((sdl->win_surface))
+			SDL_FreeSurface(sdl->win_surface);
+	sdl->win_surface = NULL;
+	if (!(sdl->win_surface = SDL_GetWindowSurface(sdl->win)))
+		put_sdl_error(sdl, "SDL_GetWindowSurface");
 	SDL_FreeSurface(sdl->main_surface);
 	sdl->main_surface = NULL;
 	if (!(sdl->main_surface = SDL_CreateRGBSurfaceFrom(sdl->data,

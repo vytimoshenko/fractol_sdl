@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 03:36:41 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 20:51:10 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@
 # define PROGRAM_NAME			"fractol"
 # define SCREENSHOT_PATH		"./screenshots/"
 
-# define WIN_SIZE_W 			2560
-# define WIN_SIZE_H				1200
-
 # define TEXT_FONT				"./fonts/SFChaerilidae-Bold.ttf"
 # define TEXT_SIZE_WELCOME		700
 # define TEXT_SIZE_MAIN			40
@@ -41,7 +38,6 @@
 # define SOURCE_NAME			"fractol.cl"
 # define KERNEL_NAME			"fractol"
 # define MAX_SOURCE_SIZE		8192
-# define LOCAL_WORK_SIZE		64
 
 # define MANDELBROT				1
 # define JULIA					2
@@ -51,6 +47,10 @@
 
 typedef struct			s_sdl
 {
+	int					display_w;
+	int					display_h;
+	int					dispaly_refresh_rate;
+	
 	int					win_size_w;
 	int					win_size_h;
 	
@@ -60,6 +60,7 @@ typedef struct			s_sdl
 	int					*data;
 	SDL_Surface			*main_surface;
 
+	int					text_size_welcome;
 	TTF_Font			*text_font_welcome;
 	TTF_Font			*text_font_main;
 	SDL_Color			text_color;
@@ -101,6 +102,7 @@ typedef struct			s_open_cl
 
 typedef struct			s_status
 {
+	int					fullscreen;
 	int					img_size_w;
 	int					img_size_h;
 
@@ -164,6 +166,7 @@ void					error_wrong_argument(void);
 void					reset_status(t_status *status);
 
 t_sdl					*init_sdl(t_status *status);
+void					get_display_mode(t_sdl *sdl);
 void					init_ttf(t_sdl *sdl);
 void					reset_render_status(t_sdl *sdl);
 void					clean_sdl(t_sdl *sdl);
@@ -193,6 +196,7 @@ void					control_type(t_status *status, t_sdl *sdl);
 void					control_iteration(t_status *status, int key);
 void					control_colors(t_status *status);
 void					control_device(t_global *global);
+void					control_fullscreen(t_global *global);
 void					set_julia(t_status *status, int x, int y);
 
 void					close_window(t_global *global);

@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:12:19 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 03:39:52 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 20:49:26 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	run_open_cl(t_status *status, t_open_cl *open_cl, int *res)
 	event = NULL;
 	set_arg_open_cl_kernel(status, open_cl);
 	if (clEnqueueNDRangeKernel(open_cl->command_queue, open_cl->kernel, 1, NULL,
-	&(open_cl->global_work_size), &(open_cl->local_work_size), 0, NULL, &event))
+	&(open_cl->global_work_size), NULL, 0, NULL, &event))
 		put_open_cl_error(open_cl, "clEnqueueNDRangeKernel");
 	if (clWaitForEvents(1, &event))
 		put_open_cl_error(open_cl, "clWaitForEvents");

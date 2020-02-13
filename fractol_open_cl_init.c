@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 23:26:21 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 03:27:18 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 22:44:30 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_open_cl	*init_open_cl(t_status *status)
 	load_open_cl_kernel(open_cl);
 	get_open_cl_info(open_cl);
 	open_cl->global_work_size = status->img_size_w * status->img_size_h;
-	open_cl->local_work_size = LOCAL_WORK_SIZE;
 	return (open_cl);
 }
 
