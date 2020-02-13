@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 00:27:10 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 03:18:05 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ void	control_device(t_global *global)
 		global->status->device = 0;
 	clean_open_cl(global->open_cl);
 	reset_render_status(global->sdl);
-	global->open_cl = init_open_cl(global->status->device);
+	global->open_cl = init_open_cl(global->status);
 }
 
 void	set_julia(t_status *status, int x, int y)
 {
-	status->x_julia = ((double)x - (double)IMG_SIZE_W / 2) * 0.002;
-	status->y_julia = ((double)y - (double)IMG_SIZE_H / 2) * 0.002;
+	status->x_julia = ((double)x - (double)status->img_size_w / 2) * 0.002;
+	status->y_julia = ((double)y - (double)status->img_size_h / 2) * 0.002;
 }

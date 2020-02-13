@@ -6,13 +6,13 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 01:37:34 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 23:59:19 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 04:23:40 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_sdl	*init_sdl(void)
+t_sdl	*init_sdl(t_status *status)
 {
 	t_sdl	*sdl;
 
@@ -21,12 +21,17 @@ t_sdl	*init_sdl(void)
 	if (SDL_Init(SDL_INIT_EVERYTHING))
 		put_sdl_error(sdl, "SDL_Init");
 	if (!(sdl->win = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED,
-	SDL_WINDOWPOS_UNDEFINED, WIN_SIZE_W, WIN_SIZE_H, 0)))
+	SDL_WINDOWPOS_UNDEFINED, WIN_SIZE_W, WIN_SIZE_H, SDL_WINDOW_FULLSCREEN)))
 		put_sdl_error(sdl, "SDL_CreateWindow");
+	SDL_GetWindowSize(sdl->win, &sdl->win_size_w, &sdl->win_size_h);
+	status->img_size_w = sdl->win_size_w;
+	status->img_size_h = sdl->win_size_h;
+	status->x_center = (double)status->img_size_w / 2;
+	status->y_center = (double)status->img_size_h / 2;
 	if (!(sdl->win_surface = SDL_GetWindowSurface(sdl->win)))
 		put_sdl_error(sdl, "SDL_GetWindowSurface");
-	if (!(sdl->data = (int *)ft_memalloc(sizeof(int) * IMG_SIZE_W *
-	IMG_SIZE_H)))
+	if (!(sdl->data = (int *)ft_memalloc(sizeof(int) * sdl->win_size_w *
+	sdl->win_size_h)))
 		ft_put_errno(PROGRAM_NAME);
 	init_ttf(sdl);
 	return (sdl);

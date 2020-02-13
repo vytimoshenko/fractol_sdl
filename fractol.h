@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 01:08:12 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 03:36:41 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@
 # define SCREENSHOT_PATH		"./screenshots/"
 
 # define WIN_SIZE_W 			2560
-# define WIN_SIZE_H				1400
-# define IMG_SIZE_W				2560
-# define IMG_SIZE_H				1400
+# define WIN_SIZE_H				1200
 
 # define TEXT_FONT				"./fonts/SFChaerilidae-Bold.ttf"
 # define TEXT_SIZE_WELCOME		700
@@ -53,6 +51,9 @@
 
 typedef struct			s_sdl
 {
+	int					win_size_w;
+	int					win_size_h;
+	
 	SDL_Window			*win;
 	SDL_Surface			*win_surface;
 
@@ -89,7 +90,7 @@ typedef struct			s_open_cl
 	size_t				source_size;
 	char				*source_str;
 	char				*program_build_log;
-
+	
 	size_t				global_work_size;
 	size_t				local_work_size;
 
@@ -100,6 +101,9 @@ typedef struct			s_open_cl
 
 typedef struct			s_status
 {
+	int					img_size_w;
+	int					img_size_h;
+
 	int					device;
 	int					fractal_type;
 
@@ -159,7 +163,7 @@ void					check_argument(t_status *status, char *arg);
 void					error_wrong_argument(void);
 void					reset_status(t_status *status);
 
-t_sdl					*init_sdl(void);
+t_sdl					*init_sdl(t_status *status);
 void					init_ttf(t_sdl *sdl);
 void					reset_render_status(t_sdl *sdl);
 void					clean_sdl(t_sdl *sdl);
@@ -194,7 +198,7 @@ void					set_julia(t_status *status, int x, int y);
 void					close_window(t_global *global);
 void					save_screenshot(t_sdl *sdl);
 
-t_open_cl				*init_open_cl(int device);
+t_open_cl				*init_open_cl(t_status *status);
 void					get_device(t_open_cl *open_cl, int device);
 void					read_open_cl_kernel(t_open_cl *open_cl);
 void					load_open_cl_kernel(t_open_cl *open_cl);

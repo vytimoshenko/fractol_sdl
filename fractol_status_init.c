@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 01:34:38 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/12 01:28:28 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 03:28:34 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		reset_status(t_status *status)
 	status->y_shift = 0;
 	status->x_julia = -0.7018;
 	status->y_julia = -0.3842;
-	status->x_center = (double)IMG_SIZE_W / 2;
-	status->y_center = (double)IMG_SIZE_H / 2;
+	status->x_center = (double)status->img_size_w / 2;
+	status->y_center = (double)status->img_size_h / 2;
 	status->pause = 1;
 }

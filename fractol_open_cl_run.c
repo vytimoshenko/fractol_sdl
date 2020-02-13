@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:12:19 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/11 05:15:12 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 03:39:52 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	set_arg_open_cl_kernel(t_status *status, t_open_cl *open_cl)
 
 void	pack_arg_to_struct(t_status *status, t_kernel_arg *kernel_arg)
 {
-	kernel_arg->img_size_x = IMG_SIZE_W;
+	kernel_arg->img_size_x = status->img_size_w;
 	kernel_arg->fractal_type = status->fractal_type;
 	kernel_arg->color_theme = status->color_theme;
 	kernel_arg->iter = status->iter;

@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 23:55:53 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 01:06:04 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/13 03:12:20 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ void	draw_image(t_sdl *sdl, int hide_info)
 {
 	SDL_FreeSurface(sdl->main_surface);
 	sdl->main_surface = NULL;
-	if (!(sdl->main_surface = SDL_CreateRGBSurfaceFrom(sdl->data, IMG_SIZE_W,
-	IMG_SIZE_H, 32, sizeof(int) * IMG_SIZE_W, 0, 0, 0, 0)))
+	if (!(sdl->main_surface = SDL_CreateRGBSurfaceFrom(sdl->data,
+	sdl->win_size_w, sdl->win_size_h, 32, sizeof(int) * sdl->win_size_w,
+	0, 0, 0, 0)))
 		put_sdl_error(sdl, "SDL_CreateRGBSurfaceFrom");
 	if (!(hide_info) && sdl->text_surface)
 	{
