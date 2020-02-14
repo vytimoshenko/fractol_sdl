@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 03:18:52 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 22:14:51 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ typedef struct			s_open_cl
 
 typedef struct			s_status
 {
-	int					fullscreen;
 	int					img_size_w;
 	int					img_size_h;
 
@@ -166,42 +165,41 @@ void					error_wrong_argument(void);
 void					reset_status(t_status *status);
 
 t_sdl					*init_sdl(t_status *status);
-void					change_fullscreen_mode(t_status *status, t_sdl *sdl);
 void					get_display_mode(t_sdl *sdl);
-void					init_ttf(t_sdl *sdl);
-void					reset_render_status(t_sdl *sdl);
+void					change_screen_mode(t_status *status, t_sdl *sdl);
 void					clean_sdl(t_sdl *sdl);
 void					put_sdl_error(t_sdl *sdl, char *str);
 
 void					loop(t_global *global);
-void					draw_welcome(t_sdl *sdl);
 void					draw(t_global *global);
 void					draw_image(t_sdl *sdl, int hide_info);
+void					count_frames(t_sdl *sdl, Uint64 start, Uint64 end);
+
+void					init_ttf(t_sdl *sdl);
+void					draw_welcome(t_sdl *sdl);
 void					draw_info(t_sdl *sdl, t_status *status);
-void					count_frames(t_sdl *sdl, struct timeval start,
-						struct timeval end);
+void					save_screenshot(t_sdl *sdl);
 
 void					mouse_move(int x, int y, t_global *global);
 void					mouse_key_press(int key, t_global *global);
 void					mouse_scroll(int wheel, t_global *global);
 void					mouse_key_release(int key, t_global *global);
 int						keyboard_key_press(int key, t_global *global);
+void					resize_window(t_global *global);
+void					close_window(t_global *global);
 
 void					get_mouse_position(t_status *status, int x, int y);
 void					control_zoom(t_status *status, int key);
 void					control_mouse_zoom(t_status *status, int wheel);
 void					control_shift(t_status *status, int key);
 void					control_mouse_shift(t_status *status, int x, int y);
+void					set_julia(t_status *status, int x, int y);
 
 void					control_type(t_status *status, t_sdl *sdl);
 void					control_iteration(t_status *status, int key);
 void					control_colors(t_status *status);
 void					control_device(t_global *global);
-void					control_fullscreen(t_global *global);
-void					set_julia(t_status *status, int x, int y);
-
-void					close_window(t_global *global);
-void					save_screenshot(t_sdl *sdl);
+void					reset_render_status(t_sdl *sdl);
 
 t_open_cl				*init_open_cl(t_status *status);
 void					get_device(t_open_cl *open_cl, int device);

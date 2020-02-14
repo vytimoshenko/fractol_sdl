@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 19:44:49 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 22:02:33 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,9 @@ void	control_device(t_global *global)
 	global->open_cl = init_open_cl(global->status);
 }
 
-void	control_fullscreen(t_global *global)
+void	reset_render_status(t_sdl *sdl)
 {
-	if (global->status->fullscreen == 0)
-		global->status->fullscreen++;
-	else
-		global->status->fullscreen = 0;
-	change_fullscreen_mode(global->status, global->sdl);
-	reset_render_status(global->sdl);
-	clean_open_cl(global->open_cl);
-	global->open_cl = init_open_cl(global->status);
+	sdl->frames = 0;
+	sdl->fps = 0;
+	sdl->frame_time = 0;
 }

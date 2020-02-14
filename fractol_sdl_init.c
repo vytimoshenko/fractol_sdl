@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 01:37:34 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 03:18:24 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 21:55:15 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_sdl	*init_sdl(t_status *status)
 		put_sdl_error(sdl, "SDL_Init");
 	get_display_mode(sdl);
 	if (!(sdl->win = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED,
-	SDL_WINDOWPOS_UNDEFINED, sdl->win_size_w, sdl->win_size_h, 0)))
+	SDL_WINDOWPOS_UNDEFINED, sdl->win_size_w, sdl->win_size_h,
+	SDL_WINDOW_RESIZABLE)))
 		put_sdl_error(sdl, "SDL_CreateWindow");
 	SDL_GetWindowSize(sdl->win, &sdl->win_size_w, &sdl->win_size_h);
 	status->img_size_w = sdl->win_size_w;
@@ -38,23 +39,6 @@ t_sdl	*init_sdl(t_status *status)
 	return (sdl);
 }
 
-void	change_fullscreen_mode(t_status *status, t_sdl *sdl)
-{
-	ft_memdel((void **)&sdl->data);
-	if (status->fullscreen)
-		SDL_SetWindowFullscreen(sdl->win, SDL_WINDOW_FULLSCREEN);
-	else
-		SDL_SetWindowFullscreen(sdl->win, 0);
-	SDL_GetWindowSize(sdl->win, &sdl->win_size_w, &sdl->win_size_h);
-	status->img_size_w = sdl->win_size_w;
-	status->img_size_h = sdl->win_size_h;
-	status->x_center = (double)status->img_size_w / 2;
-	status->y_center = (double)status->img_size_h / 2;
-	if (!(sdl->data = (int *)ft_memalloc(sizeof(int) * sdl->win_size_w *
-	sdl->win_size_h)))
-		ft_put_errno(PROGRAM_NAME);
-}
-
 void	get_display_mode(t_sdl *sdl)
 {
 	SDL_DisplayMode current;
@@ -67,25 +51,17 @@ void	get_display_mode(t_sdl *sdl)
 	sdl->win_size_h = sdl->display_h * 4 / 5;
 }
 
-void	init_ttf(t_sdl *sdl)
+void	change_screen_mode(t_status *status, t_sdl *sdl)
 {
-	if (TTF_Init())
-		put_sdl_error(sdl, "TTF_Init");
-	if (!(sdl->text_font_main = TTF_OpenFont(TEXT_FONT, TEXT_SIZE_MAIN)))
-		put_sdl_error(sdl, "TTF_OpenFont");
-	if (!(sdl->text_font_welcome = TTF_OpenFont(TEXT_FONT, TEXT_SIZE_WELCOME)))
-		put_sdl_error(sdl, "TTF_OpenFont");
-	sdl->text_color.r = TEXT_COLOR_R;
-	sdl->text_color.g = TEXT_COLOR_G;
-	sdl->text_color.b = TEXT_COLOR_B;
-	sdl->text_color.a = TEXT_COLOR_A;
-}
-
-void	reset_render_status(t_sdl *sdl)
-{
-	sdl->frames = 0;
-	sdl->fps = 0;
-	sdl->frame_time = 0;
+	ft_memdel((void **)&sdl->data);
+	SDL_GetWindowSize(sdl->win, &sdl->win_size_w, &sdl->win_size_h);
+	status->img_size_w = sdl->win_size_w;
+	status->img_size_h = sdl->win_size_h;
+	status->x_center = (double)status->img_size_w / 2;
+	status->y_center = (double)status->img_size_h / 2;
+	if (!(sdl->data = (int *)ft_memalloc(sizeof(int) * sdl->win_size_w *
+	sdl->win_size_h)))
+		ft_put_errno(PROGRAM_NAME);
 }
 
 void	clean_sdl(t_sdl *sdl)

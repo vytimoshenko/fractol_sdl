@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 23:55:53 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 03:15:20 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 22:15:43 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,25 @@ void	loop(t_global *global)
 				mouse_scroll(event.wheel.y, global);
 			else if (event.type == SDL_KEYDOWN)
 				keyboard_key_press(event.button.button, global);
+			else if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED ||
+			event.window.event == SDL_WINDOWEVENT_MAXIMIZED ||
+			event.window.event ==  SDL_WINDOWEVENT_RESTORED)
+				resize_window(global);
 		}
 	}
 }
 
 void	draw(t_global *global)
 {
-	struct timeval	start;
-	struct timeval	end;
+	Uint64	start;
+	Uint64	end;
 
-	gettimeofday(&start, NULL);
+	start = SDL_GetPerformanceCounter();
 	run_open_cl(global->status, global->open_cl, global->sdl->data);
 	if (!(global->status->hide_info))
 		draw_info(global->sdl, global->status);
 	draw_image(global->sdl, global->status->hide_info);
-	gettimeofday(&end, NULL);
+	end = SDL_GetPerformanceCounter();
 	count_frames(global->sdl, start, end);
 }
 
@@ -80,10 +84,9 @@ void	draw_image(t_sdl *sdl, int hide_info)
 		put_sdl_error(sdl, "SDL_UpdateWindowSurface");
 }
 
-void	count_frames(t_sdl *sdl, struct timeval start, struct timeval end)
+void	count_frames(t_sdl *sdl, Uint64 start, Uint64 end)
 {
 	++sdl->frames;
-	sdl->frame_time = (double)(end.tv_usec - start.tv_usec) / 1000 +
-	(double)(end.tv_sec - start.tv_sec) * 1000;
-	sdl->fps = 1000 / sdl->frame_time;
+	sdl->frame_time = (end - start) / (float)SDL_GetPerformanceFrequency();
+	sdl->fps = 1.0f / sdl->frame_time;
 }
