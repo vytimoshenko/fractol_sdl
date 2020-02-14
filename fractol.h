@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 22:14:51 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 22:38:37 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 
 # define PROGRAM_NAME			"fractol"
 # define SCREENSHOT_PATH		"./screenshots/"
+
+# define WIN_SIZE_MIN_W			640
+# define WIN_SIZE_MIN_H			480
 
 # define TEXT_FONT				"./fonts/SFChaerilidae-Bold.ttf"
 # define TEXT_SIZE_WELCOME		700

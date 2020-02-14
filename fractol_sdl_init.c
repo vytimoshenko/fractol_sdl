@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 01:37:34 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 21:55:15 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 22:41:55 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ void	get_display_mode(t_sdl *sdl)
 void	change_screen_mode(t_status *status, t_sdl *sdl)
 {
 	ft_memdel((void **)&sdl->data);
+	SDL_GetWindowSize(sdl->win, &sdl->win_size_w, &sdl->win_size_h);
+	if (sdl->win_size_w < WIN_SIZE_MIN_W)
+		SDL_SetWindowSize(sdl->win, WIN_SIZE_MIN_W, sdl->win_size_h);
+	if (sdl->win_size_h < WIN_SIZE_MIN_H)
+		SDL_SetWindowSize(sdl->win, sdl->win_size_w, WIN_SIZE_MIN_H);
 	SDL_GetWindowSize(sdl->win, &sdl->win_size_w, &sdl->win_size_h);
 	status->img_size_w = sdl->win_size_w;
 	status->img_size_h = sdl->win_size_h;
