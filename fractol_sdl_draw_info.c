@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 01:03:59 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 19:42:23 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 02:56:27 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ void	draw_welcome(t_sdl *sdl)
 		put_sdl_error(sdl, "STTF_RenderText_Blended");
 	if (SDL_BlitSurface(tmp_text_surface, NULL, sdl->main_surface, &text_rect))
 		put_sdl_error(sdl, "SDL_BlitSurface");
+	SDL_FreeSurface(tmp_text_surface);
+	tmp_text_surface = NULL;
 	if (SDL_BlitSurface(sdl->main_surface, NULL, sdl->win_surface, NULL))
 		put_sdl_error(sdl, "SDL_BlitSurface");
+	SDL_FreeSurface(sdl->main_surface);
+	sdl->main_surface = NULL;
 	if (SDL_UpdateWindowSurface(sdl->win))
 		put_sdl_error(sdl, "SDL_UpdateWindowSurface");
-	SDL_FreeSurface(tmp_text_surface);
 	while (event.type != SDL_KEYDOWN && event.type != SDL_MOUSEBUTTONDOWN)
 		SDL_WaitEvent(&event);
 }

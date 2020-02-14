@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 22:33:07 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 02:11:26 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ void	control_fullscreen(t_global *global)
 		global->status->fullscreen++;
 	else
 		global->status->fullscreen = 0;
-	clean_sdl(global->sdl);
-	global->sdl = init_sdl(global->status);
+	change_fullscreen_mode(global->status, global->sdl);
 	reset_render_status(global->sdl);
 	clean_open_cl(global->open_cl);
 	global->open_cl = init_open_cl(global->status);

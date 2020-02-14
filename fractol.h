@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 20:51:10 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 03:18:52 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ typedef struct			s_sdl
 	int					display_w;
 	int					display_h;
 	int					dispaly_refresh_rate;
-	
+
 	int					win_size_w;
 	int					win_size_h;
-	
-	SDL_Window			*win;
-	SDL_Surface			*win_surface;
 
 	int					*data;
+
+	SDL_Window			*win;
+	SDL_Surface			*win_surface;
 	SDL_Surface			*main_surface;
 
 	int					text_size_welcome;
@@ -91,7 +91,7 @@ typedef struct			s_open_cl
 	size_t				source_size;
 	char				*source_str;
 	char				*program_build_log;
-	
+
 	size_t				global_work_size;
 	size_t				local_work_size;
 
@@ -166,6 +166,7 @@ void					error_wrong_argument(void);
 void					reset_status(t_status *status);
 
 t_sdl					*init_sdl(t_status *status);
+void					change_fullscreen_mode(t_status *status, t_sdl *sdl);
 void					get_display_mode(t_sdl *sdl);
 void					init_ttf(t_sdl *sdl);
 void					reset_render_status(t_sdl *sdl);

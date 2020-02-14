@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 01:37:34 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/13 23:58:34 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 03:18:24 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,14 @@
 t_sdl	*init_sdl(t_status *status)
 {
 	t_sdl	*sdl;
-	Uint32	flags;
-	
+
 	if (!(sdl = (t_sdl *)ft_memalloc(sizeof(t_sdl))))
 		ft_put_errno(PROGRAM_NAME);
 	if (SDL_Init(SDL_INIT_EVERYTHING))
 		put_sdl_error(sdl, "SDL_Init");
 	get_display_mode(sdl);
-	if (!(status->fullscreen))
-		flags = 0;
-	else
-		flags = SDL_WINDOW_FULLSCREEN;
 	if (!(sdl->win = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED,
-	SDL_WINDOWPOS_UNDEFINED, sdl->win_size_w, sdl->win_size_h, flags)))
+	SDL_WINDOWPOS_UNDEFINED, sdl->win_size_w, sdl->win_size_h, 0)))
 		put_sdl_error(sdl, "SDL_CreateWindow");
 	SDL_GetWindowSize(sdl->win, &sdl->win_size_w, &sdl->win_size_h);
 	status->img_size_w = sdl->win_size_w;
@@ -43,10 +38,27 @@ t_sdl	*init_sdl(t_status *status)
 	return (sdl);
 }
 
+void	change_fullscreen_mode(t_status *status, t_sdl *sdl)
+{
+	ft_memdel((void **)&sdl->data);
+	if (status->fullscreen)
+		SDL_SetWindowFullscreen(sdl->win, SDL_WINDOW_FULLSCREEN);
+	else
+		SDL_SetWindowFullscreen(sdl->win, 0);
+	SDL_GetWindowSize(sdl->win, &sdl->win_size_w, &sdl->win_size_h);
+	status->img_size_w = sdl->win_size_w;
+	status->img_size_h = sdl->win_size_h;
+	status->x_center = (double)status->img_size_w / 2;
+	status->y_center = (double)status->img_size_h / 2;
+	if (!(sdl->data = (int *)ft_memalloc(sizeof(int) * sdl->win_size_w *
+	sdl->win_size_h)))
+		ft_put_errno(PROGRAM_NAME);
+}
+
 void	get_display_mode(t_sdl *sdl)
 {
 	SDL_DisplayMode current;
-	
+
 	SDL_GetCurrentDisplayMode(0, &current);
 	sdl->display_w = current.w;
 	sdl->display_h = current.h;

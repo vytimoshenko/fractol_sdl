@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 23:55:53 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 00:03:45 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 03:15:20 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,28 +56,28 @@ void	draw(t_global *global)
 
 void	draw_image(t_sdl *sdl, int hide_info)
 {
-	if ((sdl->win_surface))
-			SDL_FreeSurface(sdl->win_surface);
+	SDL_FreeSurface(sdl->main_surface);
+	sdl->main_surface = NULL;
+	if (sdl->win_surface)
+		SDL_FreeSurface(sdl->win_surface);
 	sdl->win_surface = NULL;
 	if (!(sdl->win_surface = SDL_GetWindowSurface(sdl->win)))
 		put_sdl_error(sdl, "SDL_GetWindowSurface");
-	SDL_FreeSurface(sdl->main_surface);
-	sdl->main_surface = NULL;
 	if (!(sdl->main_surface = SDL_CreateRGBSurfaceFrom(sdl->data,
 	sdl->win_size_w, sdl->win_size_h, 32, sizeof(int) * sdl->win_size_w,
 	0, 0, 0, 0)))
 		put_sdl_error(sdl, "SDL_CreateRGBSurfaceFrom");
-	if (!(hide_info) && sdl->text_surface)
+	if (!(hide_info))
 	{
 		if (SDL_BlitSurface(sdl->text_surface, NULL, sdl->main_surface, NULL))
 			put_sdl_error(sdl, "SDL_BlitSurface");
+		SDL_FreeSurface(sdl->text_surface);
+		sdl->text_surface = NULL;
 	}
 	if (SDL_BlitSurface(sdl->main_surface, NULL, sdl->win_surface, NULL))
 		put_sdl_error(sdl, "SDL_BlitSurface");
 	if (SDL_UpdateWindowSurface(sdl->win))
 		put_sdl_error(sdl, "SDL_UpdateWindowSurface");
-	SDL_FreeSurface(sdl->text_surface);
-	sdl->text_surface = NULL;
 }
 
 void	count_frames(t_sdl *sdl, struct timeval start, struct timeval end)
