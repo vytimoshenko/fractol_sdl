@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 18:34:41 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 02:11:26 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/14 19:44:49 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,4 @@ void	control_fullscreen(t_global *global)
 	reset_render_status(global->sdl);
 	clean_open_cl(global->open_cl);
 	global->open_cl = init_open_cl(global->status);
-}
-
-void	set_julia(t_status *status, int x, int y)
-{
-	status->x_julia = ((double)x - (double)status->img_size_w / 2) * 0.002;
-	status->y_julia = ((double)y - (double)status->img_size_h / 2) * 0.002;
 }
