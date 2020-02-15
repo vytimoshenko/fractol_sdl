@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 16:05:42 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 22:38:37 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/16 00:48:16 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ typedef struct			s_sdl
 	int					frames;
 	int					fps;
 	float				frame_time;
-
-	int					screenshot_num;
 }						t_sdl;
 
 typedef struct			s_open_cl
@@ -107,6 +105,8 @@ typedef struct			s_status
 {
 	int					img_size_w;
 	int					img_size_h;
+
+	int					screenshot_num;
 
 	int					device;
 	int					fractal_type;
@@ -181,7 +181,7 @@ void					count_frames(t_sdl *sdl, Uint64 start, Uint64 end);
 void					init_ttf(t_sdl *sdl);
 void					draw_welcome(t_sdl *sdl);
 void					draw_info(t_sdl *sdl, t_status *status);
-void					save_screenshot(t_sdl *sdl);
+void					save_screenshot(t_sdl *sdl, t_status *status);
 
 void					mouse_move(int x, int y, t_global *global);
 void					mouse_key_press(int key, t_global *global);

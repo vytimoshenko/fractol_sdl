@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 21:03:15 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 21:57:59 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/16 00:48:38 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int		keyboard_key_press(int key, t_global *global)
 	else if (key == SDL_SCANCODE_D)
 		control_device(global);
 	else if (key == SDL_SCANCODE_S)
-		save_screenshot(global->sdl);
+		save_screenshot(global->sdl, global->status);
 	else if (key == SDL_SCANCODE_COMMA || key == SDL_SCANCODE_PERIOD)
 		control_iteration(global->status, key);
 	else if (key == SDL_SCANCODE_MINUS || key == SDL_SCANCODE_EQUALS)

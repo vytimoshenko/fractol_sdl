@@ -6,7 +6,7 @@
 /*   By: mperseus <mperseus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 01:03:59 by mperseus          #+#    #+#             */
-/*   Updated: 2020/02/14 22:03:03 by mperseus         ###   ########.fr       */
+/*   Updated: 2020/02/16 00:48:08 by mperseus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ void	draw_info(t_sdl *sdl, t_status *status)
 	tmp_text_surface2 = NULL;
 }
 
-void	save_screenshot(t_sdl *sdl)
+void	save_screenshot(t_sdl *sdl, t_status *status)
 {
 	char	*file_name;
 	char	*tmp1;
 	char	*tmp2;
 
-	tmp1 = ft_itoa(sdl->screenshot_num);
+	tmp1 = ft_itoa(status->screenshot_num);
 	tmp2 = ft_strjoin("_", tmp1);
 	free(tmp1);
 	tmp1 = ft_strjoin(tmp2, ".jpg");
@@ -110,5 +110,5 @@ void	save_screenshot(t_sdl *sdl)
 	if (IMG_SaveJPG(sdl->main_surface, file_name, 100))
 		put_sdl_error(sdl, "IMG_SaveJPG");
 	free(file_name);
-	++sdl->screenshot_num;
+	++status->screenshot_num;
 }
